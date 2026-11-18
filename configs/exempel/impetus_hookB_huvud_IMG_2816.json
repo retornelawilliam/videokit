@@ -1,0 +1,58 @@
+{
+ "src": "/home/claude/vid4/IMG_2816.mov",
+ "out": "/home/claude/vid4/w/2816h/head.mp4",
+ "work": "/home/claude/vid4/w/2816h",
+ "wav16k": "/home/claude/vid4/IMG_2816_16k.wav",
+ "mirror": true,
+ "framings": {
+  "Z1": [
+   1.3,
+   0.5,
+   0.535
+  ],
+  "Z2": [
+   1.6,
+   0.5,
+   0.506
+  ]
+ },
+ "cap_y": 1250,
+ "anchor": [
+  0.5,
+  0.36
+ ],
+ "title": {
+  "lines": [
+   [
+    "light",
+    "byggföretag?"
+   ],
+   [
+    "bold",
+    "sluta jonglera massa appar"
+   ]
+  ],
+  "y": 300,
+  "size": 72,
+  "end": 3.94
+ },
+ "behinds": [],
+ "leaks": [],
+ "flash": [],
+ "risers": [],
+ "segs": [
+  {
+   "a": 1.04,
+   "b": 4.98,
+   "frame": "Z1",
+   "caps": "har du ett byggföretag | och har ingen struktur | eller ordning | i ditt företag?",
+   "sp": [
+    1.1,
+    4.92
+   ]
+  }
+ ],
+ "overlays": [],
+ "clean": true,
+ "voice_fx": "arnndn=m=/home/claude/models/rnnoise/cb.rnnn:mix=0.85,afftdn=nr=12:nf=-50,equalizer=f=250:t=q:w=1.0:g=-3,equalizer=f=4000:t=q:w=1.4:g=2.5,deesser=i=0.35,acompressor=threshold=-24dB:ratio=3:attack=4:release=120:makeup=3"
+}

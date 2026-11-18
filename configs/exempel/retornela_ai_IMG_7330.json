@@ -1,0 +1,224 @@
+{
+ "src": "/home/claude/vid5/IMG_7330.mov",
+ "out": "/home/claude/vid5/IMG_7330_iman.mp4",
+ "work": "/home/claude/vid5/w",
+ "wav16k": "/home/claude/vid5/IMG_7330_16k.wav",
+ "mirror": true,
+ "framings": {
+  "Z1": [
+   1.3,
+   0.42,
+   0.554
+  ],
+  "Z2": [
+   1.6,
+   0.42,
+   0.525
+  ]
+ },
+ "cap_y": 1250,
+ "cap_size": 84,
+ "anchor": [
+  0.5,
+  0.34
+ ],
+ "title": {
+  "lines": [
+   [
+    "light",
+    "syns din klinik"
+   ],
+   [
+    "serif",
+    "i chatgpt?"
+   ]
+  ],
+  "y": 290,
+  "size": 86,
+  "end": 2.85
+ },
+ "behinds": [
+  {
+   "seg": 2,
+   "text": "AI",
+   "until_seg": 3,
+   "w": 640,
+   "overlap": 0.4
+  }
+ ],
+ "leaks": [
+  3,
+  5
+ ],
+ "flash": [
+  3
+ ],
+ "risers": [
+  3
+ ],
+ "segs": [
+  {
+   "a": 0.58,
+   "b": 4.22,
+   "frame": "Z1",
+   "caps": "driver du en | skönhetsklinik | och du vill ha mer | *~exponering*",
+   "starts": [
+    0.62,
+    1.38,
+    2.38,
+    3.48
+   ],
+   "sp": [
+    0.62,
+    4.2
+   ]
+  },
+  {
+   "a": 4.22,
+   "b": 5.12,
+   "frame": "Z2",
+   "cut": "hard",
+   "cap_y": 1000,
+   "caps": "på områden",
+   "sp": [
+    4.25,
+    5.08
+   ]
+  },
+  {
+   "a": 6.33,
+   "b": 7.66,
+   "frame": "Z1",
+   "cap_y": 1000,
+   "caps": "som ~chatgpt,",
+   "sp": [
+    6.38,
+    7.6
+   ]
+  },
+  {
+   "a": 8.06,
+   "b": 9.58,
+   "frame": "Z2",
+   "cap_y": 1000,
+   "caps": "google gemini | och ~claude?",
+   "starts": [
+    8.08,
+    8.9
+   ],
+   "sp": [
+    8.08,
+    9.52
+   ]
+  },
+  {
+   "a": 10.28,
+   "b": 15.15,
+   "frame": "Z1",
+   "cap_y": 1040,
+   "caps": "skriv till oss här | via dm | eller mejla oss | på info@retornela.com",
+   "starts": [
+    10.32,
+    11.55,
+    12.15,
+    12.95
+   ],
+   "sp": [
+    10.32,
+    15.08
+   ]
+  },
+  {
+   "a": 15.28,
+   "b": 17.95,
+   "frame": "Z2",
+   "cap_y": 1060,
+   "caps": "så ska vi se till | så att du får | den *~lösningen* | du vill ha.",
+   "starts": [
+    15.33,
+    16.25,
+    16.8,
+    17.3
+   ],
+   "sp": [
+    15.33,
+    17.88
+   ]
+  }
+ ],
+ "overlays": [
+  {
+   "seg": 1,
+   "group": "på områden",
+   "kind": "seq",
+   "x": 540,
+   "y": 1420,
+   "t1_seg": 3,
+   "dir": "/home/claude/icons/seq/ret_aichat",
+   "ticks": [
+    0.15,
+    0.9
+   ],
+   "pops": [
+    1.95
+   ]
+  },
+  {
+   "seg": 4,
+   "group": "skriv till oss här",
+   "kind": "seq",
+   "x": 540,
+   "y": 1415,
+   "to_seg_end": true,
+   "dir": "/home/claude/icons/seq/ret_cta_ai",
+   "ticks": [
+    2.62,
+    3.45
+   ],
+   "pops": [
+    1.15,
+    2.55
+   ]
+  },
+  {
+   "seg": 5,
+   "group": "så att du får",
+   "kind": "seq",
+   "x": 540,
+   "y": 1400,
+   "to_seg_end": true,
+   "dir": "/home/claude/icons/seq/ret_logo_ai"
+  },
+  {
+   "seg": 2,
+   "group": "som chatgpt,",
+   "img": "/home/claude/icons/pills/chatgpt.png",
+   "size": 348,
+   "x": 895,
+   "y": 685,
+   "delay": 0.35,
+   "t1_seg": 3
+  },
+  {
+   "seg": 3,
+   "group": "google gemini",
+   "img": "/home/claude/icons/pills/gemini.png",
+   "size": 348,
+   "x": 895,
+   "y": 810,
+   "delay": 0.35,
+   "t1_seg": 3
+  },
+  {
+   "seg": 3,
+   "group": "och claude?",
+   "img": "/home/claude/icons/pills/claude.png",
+   "size": 348,
+   "x": 895,
+   "y": 935,
+   "delay": 0.25,
+   "t1_seg": 3
+  }
+ ],
+ "voice_fx": "arnndn=m=/home/claude/models/rnnoise/cb.rnnn:mix=0.85,afftdn=nr=12:nf=-50,equalizer=f=250:t=q:w=1.0:g=-3,equalizer=f=4000:t=q:w=1.4:g=2.5,deesser=i=0.35,acompressor=threshold=-24dB:ratio=3:attack=4:release=120:makeup=3"
+}

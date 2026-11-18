@@ -1,0 +1,248 @@
+{
+ "src": "/home/claude/vid4/IMG_2815.mov",
+ "out": "/home/claude/vid4/IMG_2815_clean.mp4",
+ "work": "/home/claude/vid4/w/2815c",
+ "wav16k": "/home/claude/vid4/IMG_2815_16k.wav",
+ "mirror": true,
+ "framings": {
+  "Z1": [
+   1.3,
+   0.5,
+   0.566
+  ],
+  "Z2": [
+   1.6,
+   0.5,
+   0.537
+  ]
+ },
+ "cap_y": 1250,
+ "anchor": [
+  0.5,
+  0.36
+ ],
+ "title": {
+  "lines": [
+   [
+    "light",
+    "klinikägare:"
+   ],
+   [
+    "bold",
+    "därför gick Q4 sämre"
+   ]
+  ],
+  "until_seg": 1,
+  "y": 300,
+  "size": 76
+ },
+ "behinds": [
+  {
+   "text": "Q4",
+   "seg": 1,
+   "overlap": 0.28,
+   "w": 560
+  }
+ ],
+ "leaks": [
+  4
+ ],
+ "flash": [
+  4
+ ],
+ "risers": [
+  4
+ ],
+ "segs": [
+  {
+   "a": 0.0,
+   "b": 4.27,
+   "frame": "Z1",
+   "caps": "äger du en skönhetsklinik | och q4 har inte gått | som förväntat för dig",
+   "sp": [
+    0.03,
+    4.21
+   ]
+  },
+  {
+   "a": 8.1,
+   "b": 9.63,
+   "frame": "Z2",
+   "caps": "nu det sista kvartalet?",
+   "sp": [
+    8.16,
+    9.57
+   ]
+  },
+  {
+   "a": 11.96,
+   "b": 15.88,
+   "frame": "Z1",
+   "caps": "en stor anledning är | att ni inte fokuserar | på *återkommande kunder*",
+   "sp": [
+    12.02,
+    15.82
+   ]
+  },
+  {
+   "a": 18.9,
+   "b": 21.84,
+   "frame": "Z2",
+   "caps": "för att ni lägger massa tid | på att få *nya kunder* istället.",
+   "sp": [
+    18.96,
+    21.78
+   ]
+  },
+  {
+   "a": 28.93,
+   "b": 32.57,
+   "frame": "Z1",
+   "caps": "hur ni kan lösa detta? | genom vår lösning | på *retornela*.",
+   "sp": [
+    28.99,
+    32.51
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 32.8,
+   "b": 34.61,
+   "frame": "Z2",
+   "caps": "vi bygger en | lojalitetsapp",
+   "sp": [
+    32.86,
+    34.55
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 36.73,
+   "b": 42.57,
+   "frame": "Z1",
+   "caps": "där era klienter | kan få en översikt | över alla deras behandlingar | och erbjudanden ni har.",
+   "sp": [
+    36.79,
+    42.51
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 42.82,
+   "b": 47.9,
+   "frame": "Z2",
+   "caps": "och så kan ni även | skicka ut röstmeddelanden | för att påminna era klienter.",
+   "sp": [
+    42.88,
+    47.84
+   ]
+  },
+  {
+   "a": 48.29,
+   "b": 56.43,
+   "frame": "Z1",
+   "caps": "sen finns det poängsystem | som gör att de kan samla poäng, | med poängen kan de få rabatter | och kanske ett *gratis erbjudande*.",
+   "sp": [
+    48.35,
+    56.37
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 57.95,
+   "b": 59.9,
+   "frame": "Z2",
+   "caps": "så om ni vill ha | den här lösningen,",
+   "sp": [
+    58.01,
+    59.8
+   ]
+  },
+  {
+   "a": 61.31,
+   "b": 67.38,
+   "frame": "Z1",
+   "caps": "skriv till oss | här via dm | eller mejla oss på | info@retornela.com. | hej!",
+   "sp": [
+    61.37,
+    67.32
+   ],
+   "cap_y": 1450
+  }
+ ],
+ "overlays": [
+  {
+   "seg": 0,
+   "group": "och q4 har inte gått",
+   "x": 850,
+   "y": 640,
+   "kind": "chip",
+   "icon": "trending-down",
+   "d": 170,
+   "min_dur": 1.4
+  },
+  {
+   "seg": 4,
+   "group": "på retornela.",
+   "kind": "seq",
+   "x": 540,
+   "y": 1010,
+   "t1_seg": 5,
+   "dir": "/home/claude/icons/seq/ret_logo_sv"
+  },
+  {
+   "seg": 6,
+   "group": "där era klienter",
+   "kind": "seq",
+   "x": 800,
+   "y": 950,
+   "to_seg_end": true,
+   "dir": "/home/claude/icons/seq/ret_treat_sv",
+   "from": "right"
+  },
+  {
+   "seg": 7,
+   "group": "skicka ut röstmeddelanden",
+   "kind": "seq",
+   "to_seg_end": true,
+   "x": 540,
+   "y": 300,
+   "dir": "/home/claude/icons/seq/ret_push_sv"
+  },
+  {
+   "seg": 8,
+   "group": "sen finns det poängsystem",
+   "kind": "seq",
+   "x": 800,
+   "y": 950,
+   "to_seg_end": true,
+   "dir": "/home/claude/icons/seq/ret_points_sv",
+   "from": "right",
+   "ticks": [
+    0.1,
+    1.15
+   ]
+  },
+  {
+   "seg": 8,
+   "group": "och kanske ett gratis erbjudande.",
+   "x": 230,
+   "y": 470,
+   "kind": "chip",
+   "icon": "gift",
+   "d": 170,
+   "min_dur": 1.4
+  },
+  {
+   "seg": 10,
+   "group": "skriv till oss",
+   "kind": "seq",
+   "x": 540,
+   "y": 1000,
+   "to_seg_end": true,
+   "dir": "/home/claude/icons/seq/ret_cta_sv"
+  }
+ ],
+ "clean": true,
+ "voice_fx": "arnndn=m=/home/claude/models/rnnoise/cb.rnnn:mix=0.85,afftdn=nr=12:nf=-50,equalizer=f=250:t=q:w=1.0:g=-3,equalizer=f=4000:t=q:w=1.4:g=2.5,deesser=i=0.35,acompressor=threshold=-24dB:ratio=3:attack=4:release=120:makeup=3"
+}

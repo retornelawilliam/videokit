@@ -1,0 +1,253 @@
+{
+ "src": "/home/claude/vid4/IMG_2817.mov",
+ "out": "/home/claude/vid4/IMG_2817_clean.mp4",
+ "work": "/home/claude/vid4/w/2817c",
+ "wav16k": "/home/claude/vid4/IMG_2817_16k.wav",
+ "mirror": true,
+ "framings": {
+  "Z1": [
+   1.3,
+   0.5,
+   0.539
+  ],
+  "Z2": [
+   1.6,
+   0.5,
+   0.51
+  ]
+ },
+ "cap_y": 1250,
+ "anchor": [
+  0.5,
+  0.36
+ ],
+ "title": {
+  "lines": [
+   [
+    "light",
+    "beauty clinic owner?"
+   ],
+   [
+    "bold",
+    "get more returning clients"
+   ]
+  ],
+  "until_seg": 1,
+  "y": 300,
+  "size": 74
+ },
+ "behinds": [
+  {
+   "text": "2026",
+   "seg": 11,
+   "overlap": 0.28,
+   "w": 820
+  }
+ ],
+ "leaks": [
+  2,
+  5
+ ],
+ "flash": [
+  2
+ ],
+ "risers": [
+  2
+ ],
+ "segs": [
+  {
+   "a": 9.15,
+   "b": 12.36,
+   "frame": "Z1",
+   "caps": "do you own | a beauty clinic | and you struggle with | *recurring customers*?",
+   "sp": [
+    9.21,
+    12.3
+   ]
+  },
+  {
+   "a": 12.68,
+   "b": 20.11,
+   "frame": "Z2",
+   "caps": "the reason you're struggling | with recurring customers | is because you focus too much | on getting new customers | instead of getting | recurring ones.",
+   "sp": [
+    12.74,
+    20.05
+   ]
+  },
+  {
+   "a": 21.14,
+   "b": 22.86,
+   "frame": "Z1",
+   "caps": "then we have | the *perfect solution* for you.",
+   "sp": [
+    21.2,
+    22.8
+   ]
+  },
+  {
+   "a": 23.12,
+   "b": 24.1,
+   "frame": "Z2",
+   "caps": "we have built an app",
+   "sp": [
+    23.18,
+    24.06
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 25.33,
+   "b": 27.39,
+   "frame": "Z1",
+   "caps": "that focuses on | recurring customers",
+   "sp": [
+    25.39,
+    27.33
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 27.96,
+   "b": 33.52,
+   "frame": "Z2",
+   "caps": "by having a *point system* | where your customers | could earn points, | with the points they get",
+   "sp": [
+    28.02,
+    33.46
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 35.34,
+   "b": 37.38,
+   "frame": "Z1",
+   "caps": "for example, | a *free treatment*",
+   "sp": [
+    35.4,
+    37.32
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 41.52,
+   "b": 43.26,
+   "frame": "Z2",
+   "caps": "or discounts | on other treatments.",
+   "sp": [
+    41.58,
+    43.2
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 48.17,
+   "b": 52.33,
+   "frame": "Z1",
+   "caps": "through the app, | your clients could also see | what kind of treatments they have,",
+   "sp": [
+    48.23,
+    52.27
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 53.78,
+   "b": 54.87,
+   "frame": "Z2",
+   "caps": "what discounts they have.",
+   "sp": [
+    53.84,
+    54.81
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 56.95,
+   "b": 59.22,
+   "frame": "Z1",
+   "caps": "so if you want | more *recurring customers*",
+   "sp": [
+    57.01,
+    59.16
+   ]
+  },
+  {
+   "a": 61.04,
+   "b": 62.1,
+   "frame": "Z2",
+   "caps": "in 2026,",
+   "sp": [
+    61.1,
+    62.04
+   ]
+  },
+  {
+   "a": 63.8,
+   "b": 66.46,
+   "frame": "Z1",
+   "caps": "write to us here on dm | or email us. | bye!",
+   "sp": [
+    63.86,
+    66.4
+   ],
+   "cap_y": 1450
+  }
+ ],
+ "overlays": [
+  {
+   "seg": 3,
+   "group": "we have built an app",
+   "kind": "seq",
+   "x": 540,
+   "y": 1010,
+   "t1_seg": 4,
+   "dir": "/home/claude/icons/seq/ret_logo_en"
+  },
+  {
+   "seg": 5,
+   "group": "by having a point system",
+   "kind": "seq",
+   "x": 800,
+   "y": 950,
+   "t1_seg": 7,
+   "dir": "/home/claude/icons/seq/ret_points_en",
+   "from": "right",
+   "ticks": [
+    0.1,
+    1.15
+   ]
+  },
+  {
+   "seg": 6,
+   "group": "a free treatment",
+   "x": 230,
+   "y": 470,
+   "kind": "chip",
+   "icon": "gift",
+   "d": 170,
+   "min_dur": 1.4
+  },
+  {
+   "seg": 8,
+   "group": "your clients could also see",
+   "kind": "seq",
+   "x": 800,
+   "y": 950,
+   "t1_seg": 9,
+   "dir": "/home/claude/icons/seq/ret_treat_en",
+   "from": "right"
+  },
+  {
+   "seg": 12,
+   "group": "write to us here on dm",
+   "kind": "seq",
+   "x": 540,
+   "y": 1000,
+   "to_seg_end": true,
+   "dir": "/home/claude/icons/seq/ret_cta_en"
+  }
+ ],
+ "clean": true,
+ "voice_fx": "arnndn=m=/home/claude/models/rnnoise/cb.rnnn:mix=0.85,afftdn=nr=12:nf=-50,equalizer=f=250:t=q:w=1.0:g=-3,equalizer=f=4000:t=q:w=1.4:g=2.5,deesser=i=0.35,acompressor=threshold=-24dB:ratio=3:attack=4:release=120:makeup=3"
+}

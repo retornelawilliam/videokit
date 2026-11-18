@@ -1,0 +1,174 @@
+{
+ "src": "/home/claude/vid4/IMG_2813.mov",
+ "out": "/home/claude/vid4/IMG_2813_clean.mp4",
+ "work": "/home/claude/vid4/w/2813c",
+ "wav16k": "/home/claude/vid4/IMG_2813_16k.wav",
+ "mirror": true,
+ "framings": {
+  "Z1": [
+   1.3,
+   0.5,
+   0.526
+  ],
+  "Z2": [
+   1.6,
+   0.5,
+   0.497
+  ]
+ },
+ "cap_y": 1250,
+ "anchor": [
+  0.5,
+  0.36
+ ],
+ "title": {
+  "lines": [
+   [
+    "light",
+    "black friday närmar sig"
+   ],
+   [
+    "bold",
+    "rabattkod på allt"
+   ]
+  ],
+  "until_seg": 1,
+  "y": 300,
+  "size": 76
+ },
+ "behinds": [
+  {
+   "text": "EARLY15",
+   "seg": 4,
+   "group": "skriva upp det:",
+   "overlap": 0.3,
+   "w": 1000
+  }
+ ],
+ "leaks": [
+  4,
+  5
+ ],
+ "flash": [
+  4
+ ],
+ "risers": [
+  4
+ ],
+ "segs": [
+  {
+   "a": 2.86,
+   "b": 4.97,
+   "frame": "Z1",
+   "caps": "som ni vet | så närmar *black friday* sig.",
+   "sp": [
+    2.92,
+    4.91
+   ]
+  },
+  {
+   "a": 5.21,
+   "b": 9.54,
+   "frame": "Z2",
+   "caps": "vi kommer lägga rabatt | på alla våra produkter | på vår hemsida,",
+   "sp": [
+    5.27,
+    9.48
+   ]
+  },
+  {
+   "a": 10.03,
+   "b": 11.67,
+   "frame": "Z1",
+   "caps": "speciellt på | *dessa kepsar*.",
+   "sp": [
+    10.09,
+    11.61
+   ]
+  },
+  {
+   "a": 12.08,
+   "b": 14.13,
+   "frame": "Z2",
+   "caps": "så om ni inte vill | missa rabatten,",
+   "sp": [
+    12.14,
+    14.07
+   ]
+  },
+  {
+   "a": 14.66,
+   "b": 19.19,
+   "frame": "Z1",
+   "caps": "så använd vår rabattkod. | här kommer jag | skriva upp det: | *early15*.",
+   "sp": [
+    14.72,
+    19.13
+   ]
+  },
+  {
+   "a": 20.89,
+   "b": 25.54,
+   "frame": "Z2",
+   "caps": "den funkar redan | just nu | och den kommer sluta | dagen efter black friday.",
+   "sp": [
+    20.95,
+    25.48
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 26.96,
+   "b": 30.13,
+   "frame": "Z1",
+   "caps": "så använd den | innan vi *säljer ut*. | ha det gött, hej!",
+   "sp": [
+    27.02,
+    30.07
+   ]
+  }
+ ],
+ "overlays": [
+  {
+   "seg": 1,
+   "group": "på alla våra produkter",
+   "x": 850,
+   "y": 470,
+   "kind": "chip",
+   "icon": "shopping-bag",
+   "d": 170,
+   "min_dur": 1.4
+  },
+  {
+   "seg": 2,
+   "group": "dessa kepsar.",
+   "x": 230,
+   "y": 470,
+   "kind": "chip",
+   "icon": "cap",
+   "d": 170,
+   "min_dur": 1.4
+  },
+  {
+   "seg": 5,
+   "group": "den funkar redan",
+   "kind": "seq",
+   "x": 540,
+   "y": 1060,
+   "to_seg_end": true,
+   "dir": "/home/claude/icons/seq/bf_coupon"
+  },
+  {
+   "seg": 6,
+   "group": "innan vi säljer ut.",
+   "x": 850,
+   "y": 470,
+   "kind": "chip",
+   "icon": "flame",
+   "d": 170,
+   "min_dur": 1.4
+  }
+ ],
+ "clean": true,
+ "voice_fx": "arnndn=m=/home/claude/models/rnnoise/cb.rnnn:mix=0.85,afftdn=nr=12:nf=-50,equalizer=f=250:t=q:w=1.0:g=-3,equalizer=f=4000:t=q:w=1.4:g=2.5,deesser=i=0.35,acompressor=threshold=-24dB:ratio=3:attack=4:release=120:makeup=3"
+}

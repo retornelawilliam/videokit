@@ -1,0 +1,203 @@
+{
+ "src": "/home/claude/vid4/IMG_2814.mov",
+ "out": "/home/claude/vid4/IMG_2814_short.mp4",
+ "work": "/home/claude/vid4/w/2814s",
+ "wav16k": "/home/claude/vid4/IMG_2814_16k.wav",
+ "mirror": true,
+ "framings": {
+  "Z1": [
+   1.3,
+   0.5,
+   0.546
+  ],
+  "Z2": [
+   1.6,
+   0.5,
+   0.517
+  ]
+ },
+ "cap_y": 1250,
+ "anchor": [
+  0.5,
+  0.36
+ ],
+ "title": {
+  "lines": [
+   [
+    "light",
+    "klinikägare 2026:"
+   ],
+   [
+    "bold",
+    "fler återkommande kunder"
+   ]
+  ],
+  "until_seg": 1,
+  "y": 300,
+  "size": 76
+ },
+ "behinds": [
+  {
+   "text": "01",
+   "seg": 1,
+   "overlap": 0.28,
+   "w": 520
+  },
+  {
+   "text": "02",
+   "seg": 3,
+   "overlap": 0.28,
+   "w": 520
+  }
+ ],
+ "leaks": [
+  3
+ ],
+ "flash": [],
+ "risers": [],
+ "segs": [
+  {
+   "a": 0.54,
+   "b": 6.51,
+   "frame": "Z1",
+   "caps": "så här hade jag gjort | som skönhetskliniksägare | i 2026 | för att få fler | *återkommande kunder*.",
+   "sp": [
+    0.6,
+    6.45
+   ]
+  },
+  {
+   "a": 8.21,
+   "b": 10.93,
+   "frame": "Z2",
+   "caps": "nummer ett, | jag hade byggt upp | ett *lojalitetssystem*",
+   "sp": [
+    8.27,
+    10.87
+   ]
+  },
+  {
+   "a": 11.11,
+   "b": 17.22,
+   "frame": "Z1",
+   "caps": "som får automatiskt | återkommande kunder | och även så att de kan | *värva nya kunder*.",
+   "sp": [
+    11.17,
+    17.16
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 20.42,
+   "b": 24.23,
+   "frame": "Z2",
+   "caps": "nummer två, | ett *poängsystem* | så dina kunder | kan samla poäng,",
+   "sp": [
+    20.48,
+    24.17
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 24.5,
+   "b": 27.76,
+   "frame": "Z1",
+   "caps": "så att de får rabatter | eller *gratis erbjudanden*,",
+   "sp": [
+    24.56,
+    27.7
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 61.92,
+   "b": 69.65,
+   "frame": "Z1",
+   "caps": "om du vill se | hur din egen app kan se ut, | skriv till oss här via dm | eller mejla oss på | info@retornela.com.",
+   "sp": [
+    61.98,
+    69.59
+   ],
+   "cap_y": 1450
+  },
+  {
+   "a": 69.95,
+   "b": 70.4,
+   "frame": "Z2",
+   "caps": "hej!",
+   "sp": [
+    70.01,
+    70.3
+   ],
+   "cut": "hard"
+  }
+ ],
+ "overlays": [
+  {
+   "seg": 2,
+   "group": "återkommande kunder",
+   "kind": "seq",
+   "x": 540,
+   "y": 1080,
+   "until_group": "och även så att de kan",
+   "dir": "/home/claude/icons/seq/ret_dash_sv",
+   "ticks": [
+    0.15,
+    1.3
+   ]
+  },
+  {
+   "seg": 2,
+   "group": "värva nya kunder.",
+   "kind": "seq",
+   "x": 540,
+   "y": 1000,
+   "to_seg_end": true,
+   "dir": "/home/claude/icons/seq/ret_ref_sv"
+  },
+  {
+   "seg": 3,
+   "group": "ett poängsystem",
+   "kind": "seq",
+   "x": 275,
+   "y": 950,
+   "t1_seg": 4,
+   "dir": "/home/claude/icons/seq/ret_points_sv",
+   "from": "right",
+   "ticks": [
+    0.1,
+    1.15
+   ]
+  },
+  {
+   "seg": 4,
+   "group": "eller gratis erbjudanden,",
+   "x": 850,
+   "y": 470,
+   "kind": "chip",
+   "icon": "gift",
+   "d": 170,
+   "min_dur": 1.4
+  },
+  {
+   "seg": 5,
+   "group": "skriv till oss här via dm",
+   "kind": "seq",
+   "x": 540,
+   "y": 1000,
+   "to_seg_end": true,
+   "dir": "/home/claude/icons/seq/ret_cta_sv"
+  },
+  {
+   "kind": "seq",
+   "dir": "/home/claude/icons/seq/ret_logo_sv",
+   "seg": 5,
+   "group": "om du vill se",
+   "until_group": "hur din egen app kan se ut,",
+   "x": 540,
+   "y": 1010
+  }
+ ],
+ "clean": true,
+ "voice_fx": "arnndn=m=/home/claude/models/rnnoise/cb.rnnn:mix=0.85,afftdn=nr=12:nf=-50,equalizer=f=250:t=q:w=1.0:g=-3,equalizer=f=4000:t=q:w=1.4:g=2.5,deesser=i=0.35,acompressor=threshold=-24dB:ratio=3:attack=4:release=120:makeup=3"
+}
