@@ -216,11 +216,14 @@ PAGES = {
 }
 
 with sync_playwright() as p:
+    import base64, re   # typsnitt måste bäddas in, file:// laddas inte i set_content (annars Times/Arial)
+    BASE_CSS = re.sub(r"url\('file://([^']+\.ttf)'\)", lambda m: "url('data:font/ttf;base64," + base64.b64encode(open(m.group(1), "rb").read()).decode() + "')", BASE_CSS)
     b = p.chromium.launch(executable_path=("/usr/bin/google-chrome" if __import__("os").path.exists("/usr/bin/google-chrome") else None), args=["--no-sandbox"])
     pg = b.new_page(device_scale_factor=2, viewport={"width": 1200, "height": 1000})
     for name, html in PAGES.items():
         pg.set_content(f"<html><head><style>{BASE_CSS}</style></head><body><div id='root'>{html}</div></body></html>")
         pg.wait_for_timeout(250)
+        pg.evaluate("document.fonts.ready.then(()=>1)")
         pg.locator("#root").screenshot(path=OUT + name + ".png", omit_background=True)
         print("ok", name)
     b.close()

@@ -3,13 +3,13 @@ import soundfile as sf
 import sherpa_onnx
 
 wav, model_dir = sys.argv[1], sys.argv[2]
-ranges = [tuple(map(float, r.split(":"))) for r in sys.argv[3:]]
+ranges = [tuple(map(float, r.split(":"))) for r in sys.argv[3:] if ":" in r]
 audio, sr = sf.read(wav, dtype="float32")
 rec = sherpa_onnx.OfflineRecognizer.from_whisper(
     encoder=f"{model_dir}/turbo-encoder.int8.onnx",
     decoder=f"{model_dir}/turbo-decoder.int8.onnx",
     tokens=f"{model_dir}/turbo-tokens.txt",
-    language="sv", task="transcribe", num_threads=2,
+    language=(sys.argv[sys.argv.index("--lang")+1] if "--lang" in sys.argv else "sv"), task="transcribe", num_threads=2,
 )
 for a, b in ranges:
     st = rec.create_stream()

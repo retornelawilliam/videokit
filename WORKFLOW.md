@@ -10,77 +10,74 @@ bash /home/claude/videokit/setup.sh     # ska sluta med "VIDEOKIT REDO"
 ```
 Om klonen nekas: kör verktyget `add_repo` (owner `retornelawilliam`, repo `videokit`) och klona igen med kommandot verktyget ger.
 
-## 1. Förbered
+## 1. Förbered (ett kommando, ~1 min per minut video)
 ```bash
 /home/claude/scripts/prep.sh /mnt/user-data/uploads/IMG_XXXX.mov sv
 ```
-Steget ger:
-- jobbmappen `/home/claude/jobs/IMG_XXXX/`
-- transkribering med tider
-- `energy.txt` (ljudnivå per 50 ms)
-- `stills.jpg` (var personen sitter, spegelvänt)
+Steget gör allt grovjobb och lägger det i `/home/claude/jobs/IMG_XXXX/`:
+| Fil | Vad |
+|---|---|
+| `plan.txt` | texten, vad som klipps bort (omtagningar, utfyllnad, pauser), segmenten, flaggor |
+| `cfg.json` | färdigt config-utkast: klipp, Z1/Z2, undertextgrupper med exakta ordtider (`wt`) |
+| `words.txt` | varje ord med start/slut, `?` = osäkert ord, `!!` = tal som Whisper inte skrev ut |
+| `stills.jpg` | spegelvända stillbilder (kolla att utsnittet/ansiktet stämmer) |
 
-Titta på `stills.jpg` med Read för att bestämma bildutsnitt (x/y för huvudet).
+Bakom kulisserna: Whisper transkriberar → `align.py` tvångsjusterar texten mot ljudet (Omnilingual CTC, 20 ms) → `draft.py` klipper, grupperar, rättstavar (`rattning.json`) och hittar ansiktet.
 
-## 2. Hitta exakta ord och klipp-punkter
-- Normaliserat ljud ger bäst resultat för tysta talare:
-  ```bash
-  python3 /home/claude/scripts/tr_range.py JOB/IMG_XXXX_norm.wav /home/claude/models/sherpa-onnx-whisper-turbo 0.5:2.4 0.5:3.1 …
-  ```
-- **Ordtider:** transkribera prefix (start:slut med växande slut). Då syns var varje ord landar.
-- **Felsägningar:** klipp bort en omtagning (t.ex. "som chat– … som ChatGPT"). Bekräfta klippet genom att klippa ihop ljudet med numpy och transkribera det.
-- **Rättning:** Whisper hör fel på namn och mejladresser. Rätta efter sammanhang och fråga William om något är osäkert.
+## 2. Text och klipp
+- Läs `plan.txt`. Kontrollera **omtagningar** (sista tagningen behålls) och **tal utan text** (Whisper tvättar bort felsägningar – de klipps bort, men kolla att inget viktigt försvinner).
+- **Rättstava** direkt i `caps` i `cfg.json`. Behåll samma antal ord per segment, annars stämmer inte `wt` (motorn varnar och gissar tider).
+  - Slå ihop/dela ord → ändra `wt` också (ett starttal per ord, källtid; se `words.txt`).
+- Nytt återkommande hörfel? Lägg in det i `scripts/rattning.json` (lärande).
+- Felaktigt klipp? Ändra `a`/`b` (källtid) eller kör om med annan paus: `python3 scripts/draft.py JOB --pause 0.35 --force`.
+- Stickprov vid tvekan: `python3 scripts/tr_range.py JOB/IMG_XXXX_norm.wav /home/claude/models/sherpa-onnx-whisper-turbo 3.1:4.2`
 
 👁 **Skicka till William** (SendUserMessage):
 - texten som den blir
 - vad som klipps bort (tystnad och omtagningar)
-- planen: hook-titel, nyckelord, accenter, kort och var de dyker upp
+- planen: hook-titel (+ 2 alternativ), nyckelord, accenter, bakom-ordet, kort och var de dyker upp (tidsstämplar)
 
 Kör vidare utan att vänta, om han inte har bett om att få godkänna först.
 
 ## 3. Grafik
 - **Återanvänd** kort från `icons/seq/` om de passar (se BRANDS.md).
-- **Nytt kort:** lägg en funktion i `scripts/seqs.py` som returnerar `(html, längd_s)`, registrera den i UI-listan och kör:
+- **Nytt kort:** lägg en funktion i `scripts/seqs.py` som returnerar `(html, längd_s)`, registrera den i `UI` och kör:
   ```bash
   python3 /home/claude/scripts/seqs.py mitt_kort
   ```
-  Synka händelser i kortet med ordens tider. Räkna sekunder från kortets start, som är gruppens start minus 0,03 s.
+  Synka händelser i kortet med ordens tider i `words.txt`. Räkna sekunder från kortets start (= gruppens första ord − 0,03 s).
+  Skriptet varnar om typsnitten inte laddar ("VARNING … typsnitt").
 - **Namnbrickor med logga:** lägg loggan i `icons/logos/<namn>.png` (vit bakgrund, kvadrat), lägg till namnet i `pills.py` och kör den.
-- **Kontrollera** sista bildrutan av varje kort (komponera på grå bakgrund och titta med Read). Typsnitten ska vara Montserrat och Instrument Serif.
+- **Kontrollera** sista bildrutan av varje nytt kort (komponera på grå bakgrund och titta med Read).
 
-## 4. Config
-Kopiera `configs/exempel/retornela_ai_IMG_7330.json` till jobbmappen och ändra. Nycklar:
-
-| Nyckel | Betydelse |
+## 4. Config – det som är kvar efter utkastet
+| Nyckel | Gör så här |
 |---|---|
-| `src`, `out`, `work`, `wav16k` | sökvägar (work = `JOB/w`) |
-| `mirror` | `true` |
-| `framings` | `{"Z1": [zoom, cx, cy], "Z2": [...]}`. cx/cy = utsnittets mitt (0–1) i den spegelvända källan. Tumregel: Z1 = [1.3, huvud_x, huvud_y+0.154], Z2 = [1.6, huvud_x, huvud_y+0.125] |
-| `anchor` | zoomcentrum i bild, oftast `[0.5, 0.34]` |
-| `cap_y`, `cap_size` | undertexternas höjd (1250) och storlek (84) |
-| `title` | `{"lines": [["light","…"],["serif","…"]], "y": 290, "size": 86, "end": sek}` |
-| `segs[]` | `a`/`b` (källtid in/ut), `frame` (Z1/Z2), `caps` ("grupp \| grupp", `*accent*`, `~serif`), `starts` (källtid per grupp), `sp` (talstart/slut), `cut` (`whip` standard, `hard`, `rewind`), `cap_y`, `bw`, `drama` |
+| `title` | hook-titel: `{"lines": [["light","…"],["serif","…"]], "y": 290, "size": 86, "end": sek}` |
+| `caps` | `~ord` = serif kursiv (2–4 per video), `*ord*` = accent med svartvit blixt (2–3). Grupper skiljs med `\|` – flytta gärna, `wt` följer orden |
 | `behinds[]` | `{"seg": i, "text": "AI", "until_seg": j, "w": 640, "overlap": 0.4}` |
-| `leaks`, `flash`, `risers` | listor med segmentindex |
-| `overlays[]` | `{"seg", "group" (text utan * ~), "kind": "seq"\|"chip"\|(tomt = bild/sticker), "dir"/"img", "size", "x", "y", "to_seg_end"\|"t1_seg"\|"until_group", "delay", "ticks": [a,b], "pops": [...]}` |
-| `voice_fx` | rensningskedjan för ljudet (kopiera från exemplet) |
+| `overlays[]` | `{"seg", "group" (gruppens text utan * ~), "kind": "seq"\|"chip"\|(tomt = bild/bricka), "dir"/"img", "size", "x", "y", "to_seg_end"\|"t1_seg"\|"until_group", "delay", "ticks": [a,b], "pops": [...]}` |
+| `cap_y` per segment | 1000–1060 när ett kort syns i nedre halvan, annars 1250 (standard) |
+| `leaks`, `flash`, `risers` | segmentindex; utkastet sätter ljusläckor + riser på slutet |
+| `framings` | utkastet räknar från ansiktet: Z1 = [1.3, x, y+0.154], Z2 = [1.6, x, y+0.125]. Saknas ansikte → sätt för hand |
+| `cut` | `whip` (standard), `hard` (mitt i mening, utkastet sätter), `rewind` |
 | `clean`, `cap_style: "tiktok"`, `no_zoom`, `cutout` | alternativa lägen |
+
+Övriga nycklar (`src`, `out`, `work`, `wav16k`, `sp`, `wt`, `voice_fx`) är redan ifyllda. `starts` behövs inte när `wt` finns.
 
 ## 5. Storyboard före slutrendering
 ```bash
 cd JOB
 python3 /home/claude/scripts/iman5.py cfg.json --stage ass
+python3 /home/claude/scripts/check.py cfg.json --plan          # säkra zoner + krockar, innan något renderas
 python3 /home/claude/scripts/iman5.py cfg.json --stage audio
-python3 /home/claude/scripts/iman5.py cfg.json --stage video --preview 0.5,2.9,4.3,5.3,6.6,8.4,10.7,13.0,14.4
-python3 /home/claude/scripts/storyboard.py frames w w/storyboard.jpg "0.5s hook,2.9s accent,…"
+python3 /home/claude/scripts/iman5.py cfg.json --stage video --preview auto   # -> w/storyboard.jpg
 ```
-- `ass`-steget skriver ut whip-tider, kortens tider, accenter och "behind".
-- Förhandsbilderna saknar undertexter.
+- `--preview auto` väljer nyckelmomenten själv (hook, accenter, varje kort, bakom-text, varje segment, slut), bränner in undertexterna och gör `w/storyboard.jpg` med etiketter.
+- Egna tider går fortfarande: `--preview 0.5,2.9,4.3`.
+- Bakom-text gör förhandsvisningen långsammare (varje bildruta i fönstret räknas).
 
-Kolla:
-- att ansiktet syns
-- att inget kort krockar med undertext, titel eller bricka
-- att inget hamnar i säkra zoner
+Kolla att ansiktet syns, att inget krockar och att texten är rätt. Rätta och kör om.
 
 👁 **Skicka** `storyboard.jpg` till William med en mening om vad den visar.
 
@@ -96,16 +93,18 @@ nohup bash JOB/q.sh >/dev/null 2>&1 &
 
 ## 7. Kontroll och leverans
 ```bash
-/home/claude/scripts/check.sh JOB/IMG_XXXX_iman.mp4          # −14 LUFS, längd
+python3 /home/claude/scripts/check.py JOB/cfg.json        # upplösning, fps, längd, −14 LUFS, true peak, zoner, krockar, all text
 python3 /home/claude/scripts/storyboard.py video JOB/IMG_XXXX_iman.mp4 JOB/final_sheet.jpg 0.5,2.9,4.3,…
 ```
-- Titta på `final_sheet.jpg` (nu med undertexter). Rätta det som är fel och rendera om.
+- `check.py` ska sluta med "ALLT OK". Läs texten den skriver ut (namn, märken, adresser).
+- Titta på `final_sheet.jpg`. Rätta det som är fel och rendera om.
 - 👁 **Skicka videon** med SendUserFile och en kort sammanfattning: vad som klipptes, effekter, grafik och eventuella risker.
 - Lägg till ett förslag på posttext: 1–2 meningar på videons språk och 3–5 relevanta hashtags.
 
 ## Kända fallgropar
-- Typsnitt i Chrome-grafik måste vara inbäddade. `font-family:Serif` utan citattecken blir systemets serif, så `seqs.py` byter automatiskt.
+- Typsnitt i Chrome-grafik måste vara inbäddade (data-URL). `seqs.py` och `assets.py` gör det och varnar annars. Kort renderade före nov 2026 kunde ha fått Times/Arial – alla är omrenderade.
 - Kortets höjd får inte ändras under animationen (sätt fast `height`), annars hoppar det.
 - Text bakom personen kräver att huvudet syns och att `overlap` är 0.3–0.45.
+- CTC-modellen blir instabil på väldigt korta ljudbitar – `align.py` kör därför hela klippet på en gång (upp till 38 s, längre i 30-sekundersfönster).
 - Stoppas miljön mitt i en rendering: kolla att mp4-filen går att läsa (moov atom) och rendera om.
 - Hugging Face är blockerat. Allt laddas från GitHub.

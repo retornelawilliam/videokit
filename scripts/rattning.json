@@ -1,0 +1,16 @@
+{
+  "_info": "Rättstavning som draft.py gör automatiskt. Nyckel = det Whisper skriver (regex, skiftlägesokänsligt, hela ord). Mellanslag i nyckeln = flera ord som slås ihop till ett. Lägg till nya fel här när de dyker upp.",
+  "retornell?a|returnell?a|retornel|re-tornela|re tornela|retor nela": "Retornela",
+  "chat gpt|chat-gpt|chatgbt|chat gbt|chatt gpt": "ChatGPT",
+  "chatgpt": "ChatGPT",
+  "gemini|jemini|gemeni": "Gemini",
+  "impetos|impetus|impettus": "Impetus",
+  "fortnox|fort knox|fortknox": "Fortnox",
+  "spiris|spirus": "Spiris",
+  "excet|exet|exzet": "Excet",
+  "tiktok|tick tock|tik tok|tick-tock": "TikTok",
+  "insta gram": "Instagram",
+  "info at retornela.com|info@retornela\\.com|info retornela.com": "info@retornela.com",
+  "klod|claud": "Claude",
+  "monarc|monarch": "MONARCH"
+}

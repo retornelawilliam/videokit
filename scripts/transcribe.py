@@ -34,6 +34,14 @@ for s in segs:
         merged.append(s)
 merged = [s for s in merged if s[1] - s[0] >= 0.15]
 
+# Whisper ser bara 30 s åt gången: dela långa bitar i den tystaste punkten mellan 35 och 65 %
+def split_long(a, b):
+    if b - a <= 24: return [[a, b]]
+    i0, i1 = int((a + 0.35 * (b - a)) / 0.01), int((a + 0.65 * (b - a)) / 0.01)
+    c = (i0 + int(np.argmin(db[i0:i1]))) * 0.01
+    return split_long(a, c) + split_long(c, b)
+merged = [x for a, b in merged for x in split_long(a, b)]
+
 rec = sherpa_onnx.OfflineRecognizer.from_whisper(
     encoder=f"{model_dir}/turbo-encoder.int8.onnx",
     decoder=f"{model_dir}/turbo-decoder.int8.onnx",

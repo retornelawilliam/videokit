@@ -1,5 +1,5 @@
 #!/bin/bash
-# Förbereder en ny video: jobbmapp, ljud, transkribering, energiprofil och stillbilder.
+# Förbereder en ny video: jobbmapp, ljud, transkribering, ordtider, stillbilder och ett första config-utkast.
 # Användning: prep.sh /mnt/user-data/uploads/IMG_1234.mov [sv|en]
 set -e
 SRC="$1"; LNG="${2:-sv}"
@@ -39,4 +39,9 @@ i=0; for f in 0.1 0.35 0.6 0.85; do
   ffmpeg -v error -y -ss $t -i "$V" -frames:v 1 -vf "${TM}hflip,scale=270:-2" "$J/w/still_$i.jpg"; i=$((i+1))
 done
 ffmpeg -v error -y -i "$J/w/still_0.jpg" -i "$J/w/still_1.jpg" -i "$J/w/still_2.jpg" -i "$J/w/still_3.jpg" -filter_complex hstack=4 "$J/stills.jpg"
-echo "== Klart: $J  (stills.jpg = spegelvända stillbilder, energy.txt = ljudnivå)"
+echo "== Ordtider (tvingad justering)"
+python3 $S/align.py "$J/${NAME}_16k.wav" "$J/${NAME}_segs.json" "$J/words.json" "$LNG" 2>&1 | grep -v "^sandbox"
+echo "== Utkast: config + plan"
+python3 $S/draft.py "$J" --lang "$LNG"
+echo "== Klart: $J"
+echo "   plan.txt = text, bortklippt, segment, flaggor | cfg.json = utkast | words.txt = varje ord med tid | stills.jpg = bildutsnitt"

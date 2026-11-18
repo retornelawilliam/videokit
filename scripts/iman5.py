@@ -9,7 +9,9 @@ from PIL import Image, ImageDraw, ImageFont
 
 CFG = json.load(open(sys.argv[1]))
 STAGE = sys.argv[sys.argv.index("--stage") + 1] if "--stage" in sys.argv else "all"
-PREVIEW = [float(x) for x in sys.argv[sys.argv.index("--preview") + 1].split(",")] if "--preview" in sys.argv else None
+_PV = sys.argv[sys.argv.index("--preview") + 1] if "--preview" in sys.argv else None
+PREVIEW = None if _PV in (None, "auto") else [float(x) for x in _PV.split(",")]   # "auto" = nyckelmoment, räknas ut nedan
+PV_LABELS = {}
 FPS = CFG.get("fps", 30)
 SRC, OUT, WD = CFG["src"], CFG["out"], CFG["work"].rstrip("/") + "/"
 FONTS = "/home/claude/fonts"
@@ -25,7 +27,7 @@ for s in CFG["segs"]:
     fr = s["frame"]; fr = CFG["framings"][fr] if isinstance(fr, str) else fr
     SEGS.append(dict(a=a, d=b - a, o=o, z=fr[0], cx=fr[1], cy=fr[2], sp=s.get("sp", [s["a"] + 0.06, s["b"] - 0.07]),
                      caps=s["caps"], cut=s.get("cut", "whip"), yc=s.get("cap_y"), bw=s.get("bw", False),
-                     drama=s.get("drama", False), starts=s.get("starts")))
+                     drama=s.get("drama", False), starts=s.get("starts"), wt=s.get("wt")))
     o += b - a
 TOTAL = o
 NF = int(round(TOTAL * FPS))
@@ -62,13 +64,37 @@ for si, S in enumerate(SEGS):
         acc += (sp1 - sp0) * w / sum(ws)
         starts.append(snap_boundary(acc, sp0 + 0.1, sp1 - 0.1))
     if S["starts"]: starts = S["starts"]
+    gwt = [None] * len(gs)
+    nw = [len(g.split()) for g in gs]
+    if S["wt"]:      # exakta ordtider från align.py/draft.py (källtid per ord)
+        if sum(nw) == len(S["wt"]):
+            cum = np.concatenate([[0], np.cumsum(nw)]).astype(int)
+            starts = [S["wt"][cum[i]] for i in range(len(gs))]
+            gwt = [[S["o"] + t - S["a"] for t in S["wt"][cum[i]:cum[i + 1]]] for i in range(len(gs))]
+        else:
+            print(f"OBS seg {si}: {sum(nw)} ord i caps men {len(S['wt'])} ordtider i wt – faller tillbaka på uppskattade tider", file=sys.stderr)
     for i, g in enumerate(gs):
         st = S["o"] + starts[i] - S["a"]
         p1 = S["o"] + ((starts[i+1] if i + 1 < len(gs) else sp1) - S["a"])
         en = S["o"] + ((starts[i+1] - S["a"]) if i + 1 < len(gs) else S["d"])
-        GROUPS.append(dict(st=max(st - 0.03, S["o"]), en=en - 0.02, sp0=st, sp1=p1, raw=g, seg=si, idx=i, n=len(gs)))
+        GROUPS.append(dict(st=max(st - 0.03, S["o"]), en=en - 0.02, sp0=st, sp1=p1, raw=g, seg=si, idx=i, n=len(gs), wt=gwt[i]))
 
-ACCENTS = [g["sp0"] for g in GROUPS if "*" in g["raw"]]
+def word_ticks(g, words):
+    """Starttid (klipptid) för varje ord i gruppen: exakt om wt finns, annars fördelat efter ordlängd."""
+    if g.get("wt") and len(g["wt"]) == len(words):
+        tk = [max(g["st"], t - 0.02) for t in g["wt"]]; tk[0] = g["st"]
+        for k in range(1, len(tk)): tk[k] = max(tk[k], tk[k - 1] + 0.04)
+        return tk
+    w = [wweight(x) for x in words]
+    cum = np.concatenate([[0], np.cumsum(w)]) / sum(w)
+    tk = [g["sp0"] + (g["sp1"] - g["sp0"]) * c for c in cum[:-1]]; tk[0] = g["st"]
+    return tk
+
+ACCENTS = []
+for g in GROUPS:
+    if "*" not in g["raw"]: continue
+    ws_ = g["raw"].split(); k_ = next(k for k, w_ in enumerate(ws_) if "*" in w_)
+    ACCENTS.append(g["wt"][k_] if g.get("wt") and k_ > 0 else g["sp0"])
 
 # behind-text window
 BEHINDS = []
@@ -151,9 +177,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         words = txt.split()
         if TTS:
             W_ = [w_.upper() for w_ in words]
-            wt = [wweight(x) for x in words]
-            cm = np.concatenate([[0], np.cumsum(wt)]) / sum(wt)
-            tk = [g["sp0"] + (g["sp1"] - g["sp0"]) * c for c in cm[:-1]]; tk[0] = g["st"]
+            tk = word_ticks(g, words)
             for k in range(len(W_)):
                 a0 = tk[k]; a1 = tk[k+1] if k + 1 < len(W_) else g["en"]
                 if a1 - a0 < 0.02: continue
@@ -164,10 +188,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
                 anim = r"\fscx70\fscy70\t(0,90,\fscx104\fscy104)\t(90,150,\fscx100\fscy100)" if k == 0 else ""
                 line(1, a0, a1, "TT", f"\\pos({X},{yy}){anim}", " ".join(parts))
             continue
-        w = [wweight(x) for x in words]
-        cum = np.concatenate([[0], np.cumsum(w)]) / sum(w)
-        tk = [g["sp0"] + (g["sp1"] - g["sp0"]) * c for c in cum[:-1]]
-        tk[0] = g["st"]
+        tk = word_ticks(g, words)
         for k in range(len(words)):
             a0 = tk[k]; a1 = tk[k+1] if k + 1 < len(words) else g["en"]
             if a1 - a0 < 0.02: continue
@@ -195,6 +216,12 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
             line(4, 0.0, TITLE["en"], "Shd", rf"\pos(540,{y0 + i*lh + 4})\blur12\fs{fs}" + anim, fn + txt)
             line(5, 0.0, TITLE["en"], "Cap", rf"\pos(540,{y0 + i*lh})\fs{fs}" + anim, fn + txt)
     open(WD + "captions.ass", "w").write(hdr + "\n".join(L) + "\n")
+    # tidslinje för check.py (kontroll av säkra zoner och krockar)
+    ser = lambda d: {k: v for k, v in d.items() if isinstance(v, (int, float, str, bool, list)) and k not in ("txt", "wt")}
+    json.dump({"total": TOTAL, "cap_y": Y, "cap_size": FSZ, "tiktok": TTS,
+               "segs": [ser(S_) for S_ in SEGS], "groups": [ser(g) | {"y": SEGS[g["seg"]]["yc"] or Y} for g in GROUPS],
+               "overlays": [ser(o_) for o_ in OVERLAYS], "behinds": [ser(b_) for b_ in BEHINDS],
+               "title": TITLE, "accents": ACCENTS}, open(WD + "timeline.json", "w"), ensure_ascii=False, indent=0)
 
 # ---------------- audio ----------------
 SR = 48000
@@ -804,14 +831,49 @@ def build_video():
         img = finish(img, t, fi)
         img = overlays(img, t)
         if enc: enc.stdin.write(img.tobytes())
-        elif fi in want: cv2.imwrite(f"{WD}prev_{t:05.2f}.jpg", cv2.cvtColor(img, cv2.COLOR_RGB2BGR), [cv2.IMWRITE_JPEG_QUALITY, 85])
+        elif fi in want: cv2.imwrite(f"{WD}prev_{t:06.2f}.jpg", cv2.cvtColor(img, cv2.COLOR_RGB2BGR), [cv2.IMWRITE_JPEG_QUALITY, 85])
         if fi % 90 == 0: print("frame", fi, "/", NF, flush=True)
     if enc: enc.stdin.close(); enc.wait()
 
 print(f"total {TOTAL:.2f}s, {len(SEGS)} segs | whip {[round(c,2) for c in WHIP_CUTS]} | rewind {[round(c,2) for c in REWINDS]}")
 print(f"overlays {[(round(o_['t0'],2), round(o_['t1'],2), (o_.get('img') or o_.get('dir') or o_.get('icon') or 'scatter').rstrip('/').split('/')[-1]) for o_ in OVERLAYS]}")
 print(f"accents {[round(a,2) for a in ACCENTS]} | micro {[round(m,2) for m in MICRO]} | behind {BEHIND and (round(BEHIND['st'],2), round(BEHIND['en'],2))} | title {TITLE and TITLE['en']}")
+if _PV == "auto":   # storyboard-tider: hook, accenter, kort, bakom-text, varje segment, slut
+    cand = [(min(0.6, TOTAL / 2), "hook")]
+    cand += [(a + 0.12, "accent") for a in ACCENTS]
+    cand += [(o_["t0"] + min(0.8, (o_["t1"] - o_["t0"]) / 2), "kort " + (o_.get("img") or o_.get("dir") or o_.get("icon") or "").rstrip("/").split("/")[-1].replace(".png", "")) for o_ in OVERLAYS]
+    cand += [(b_["st"] + 0.4, "bakom " + b_["text"]) for b_ in BEHINDS]
+    for i_, S_ in enumerate(SEGS):
+        mid = S_["o"] + S_["d"] / 2
+        if not any(S_["o"] <= t_ < S_["o"] + S_["d"] for t_, _ in cand): cand.append((mid, f"seg {i_}"))
+    cand.append((TOTAL - 0.3, "slut"))
+    cand.sort(); PREVIEW = []
+    for t_, lab in cand:
+        t_ = round(min(max(t_, 0.05), TOTAL - 0.1) * FPS) / FPS
+        if PREVIEW and t_ - PREVIEW[-1] < 0.25: continue
+        PREVIEW.append(t_); PV_LABELS[t_] = lab
+    PREVIEW = PREVIEW[:15]
+    print("storyboard-tider", [(round(t_, 2), PV_LABELS[t_]) for t_ in PREVIEW])
+
+def storyboard_from_previews():
+    """Bränner in undertexterna på förhandsbilderna och gör w/storyboard.jpg."""
+    import glob, os
+    paths = sorted(glob.glob(WD + "prev_*.jpg"))
+    for p_ in paths:
+        t_ = float(os.path.basename(p_)[5:-4])
+        if os.path.exists(WD + "captions.ass"):
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-framerate", str(FPS), "-i", p_, "-frames:v", "1",
+                            "-vf", f"setpts=PTS+{t_:.3f}/TB,ass={WD}captions.ass:fontsdir={FONTS}", p_ + ".c.jpg"], check=True)
+            os.replace(p_ + ".c.jpg", p_)
+    labels = [f"{float(os.path.basename(p_)[5:-4]):.1f}s " + PV_LABELS.get(round(float(os.path.basename(p_)[5:-4]) * FPS) / FPS, "") for p_ in paths]
+    subprocess.run([sys.executable, "/home/claude/scripts/storyboard.py", "frames", WD.rstrip("/"), WD + "storyboard.jpg", ",".join(labels)], check=True)
+
 if STAGE in ("all", "ass"): build_ass()
 if STAGE in ("all", "audio"): build_audio()
-if STAGE in ("all", "video"): build_video()
+if STAGE in ("all", "video"):
+    if PREVIEW is not None:
+        import glob, os
+        for p_ in glob.glob(WD + "prev_*.jpg"): os.remove(p_)
+    build_video()
+    if PREVIEW is not None: storyboard_from_previews()
 print("done")

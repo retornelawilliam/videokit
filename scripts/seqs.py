@@ -315,6 +315,12 @@ def render(pg, name, html, dur, width_px=None, css_w=None):
     pg.set_content(f"<html><head><style>{BASE_CSS}</style></head><body><div id='root'>{html}</div>{RUNTIME}</body></html>")
     pg.wait_for_timeout(200)
     pg.evaluate("document.fonts.ready.then(()=>1)")
+    used = pg.evaluate("""() => { const f = new Set(); document.querySelectorAll('#root *').forEach(e => f.add(getComputedStyle(e).fontFamily.split(',')[0].replace(/["']/g,'').trim())); return [...f]; }""")
+    bad = [f for f in used if f not in ("Mont", "Serif")]
+    loaded = pg.evaluate("[...document.fonts].filter(f => f.status === 'loaded').map(f => f.family.replace(/[\"']/g,''))")
+    if "--fontlog" in sys.argv: print(name, used, sorted(set(loaded)))
+    if bad or not set(f for f in used) <= set(loaded) | {"Mont", "Serif"} or not loaded:
+        print(f"VARNING {name}: typsnitt {used}, laddade {sorted(set(loaded))}", file=sys.stderr)
     root = pg.locator("#root")
     n = int(round(dur * FPS)) + 1
     for i in range(n):
