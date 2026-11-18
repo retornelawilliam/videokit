@@ -1,6 +1,6 @@
 """Första utkast av config + plan, direkt från ordtiderna (align.py).
 
-usage: python3 draft.py JOB [--pause 0.25] [--lang sv] [--force]
+usage: python3 draft.py JOB [--pause 0.25] [--lang sv] [--drop 1.2-3.5,26.2-27] [--force]
 
 Gör automatiskt:
   - rättstavar kända namn (rattning.json)
@@ -50,6 +50,10 @@ for k, w in enumerate(W): w["i"] = k; w["drop"] = None
 FILL = {"eh", "ehm", "öh", "öhm", "äh", "ähm", "eeh", "uh", "um", "uhm", "hmm", "mm", "mmm", "erm"}
 for w in W:
     if norm(w["w"]) in FILL: w["drop"] = "utfyllnad"
+# --drop 1.2-3.5,26.2-27.0 : ta bort ord som börjar inom intervallen (falska starter, sidospår)
+DROPS = [tuple(map(float, r.split("-"))) for r in arg("--drop", "").split(",") if "-" in r]
+for w in W:
+    if any(a_ <= w["s"] <= b_ for a_, b_ in DROPS): w["drop"] = "bortvalt"
 
 def pause_before(j): return W[j]["s"] - W[j - 1]["e"] if j > 0 else 9
 def restart_signal(j):
@@ -208,6 +212,7 @@ L = [f"PLAN {NAME}   {src_len:.1f} s tal -> {TOTAL:.1f} s klippt ({len(OUT_SEGS)
      "TEXT", "  " + " ".join(w["w"] for w in KEEP), "", "KLIPPS BORT"]
 L += [f"  omtagning {a:.2f}-{b:.2f}: \"{t}\"" for a, b, t in RETAKES]
 L += [f"  utfyllnad {w['s']:.2f}: \"{w['w']}\"" for w in W if w["drop"] == "utfyllnad"]
+L += [f"  bortvalt {a_:.2f}-{b_:.2f}: \"{' '.join(w['w'] for w in W if a_ <= w['s'] <= b_)}\"" for a_, b_ in DROPS]
 L += [f"  tal utan text {g['s']:.2f}-{g['e']:.2f}: \"{g['ctc']}\" (Whisper skrev inte ut det – kolla att det ska bort)" for g in GAPS]
 L += [f"  pauser > {PAUSE:.2f} s: {len(pauses)} st, totalt {sum(b - a for a, b in pauses):.1f} s"]
 L += ["", "SEGMENT (källa a–b | start i klippet | utsnitt | övergång | undertexter)"]

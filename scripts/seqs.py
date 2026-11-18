@@ -297,6 +297,87 @@ def logo_ai():
       <div data-in="0.8" style="font-size:26px;color:#3b352f;font-weight:600">Lojalitetsappar &amp; AI-synlighet</div>
       <div data-in="0.95" style="font-size:20px;color:var(--muted);font-weight:400;margin-top:6px">för kliniker runt om i Europa</div></div>""", 1.4
 
+def patients():
+    """Patientlista i klinikpanelen (demo). Rader glider in, 'Synkat nu' poppar på 'hela tiden'."""
+    rows = [("SL", "Sara Lindqvist", "Laser · 12 nov", "Nästa: 3 dec", "1 240 p"),
+            ("AK", "Amira Karimi", "Hydrafacial · 9 nov", "Nästa: 28 nov", "860 p"),
+            ("JB", "Johanna Berg", "Botox · 4 nov", "Ingen bokning", "420 p"),
+            ("EM", "Elin Mårtensson", "Peeling · 31 okt", "Nästa: 6 dec", "1 905 p")]
+    def row(r, t0):
+        av, nm, last, nxt, pts = r
+        warn = nxt == "Ingen bokning"
+        return f"""<div data-in="{t0}" data-dy="14" style="display:flex;align-items:center;gap:14px;padding:12px 16px;background:#fff;border:1px solid var(--line);border-radius:16px;margin-top:9px">
+          <div style="width:42px;height:42px;border-radius:21px;background:var(--rose);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--ink);flex:none">{av}</div>
+          <div style="flex:1"><div style="font-size:17px;font-weight:700;color:var(--ink)">{nm}</div><div style="font-size:13px;color:var(--muted);font-weight:600;margin-top:1px">Senast: {last}</div></div>
+          <div style="font-size:13px;font-weight:700;padding:6px 10px;border-radius:10px;{'background:#f6e7df;color:#9a4b2c' if warn else 'background:#e7f2e8;color:#2f6b3a'}">{nxt}</div>
+          <div style="width:74px;text-align:right;font-size:15px;font-weight:700;color:var(--gold)">{pts}</div></div>"""
+    body = "".join(row(r, 0.3 + 0.22 * i) for i, r in enumerate(rows))
+    return f"""<div style="width:760px;height:436px;background:var(--ivory);border-radius:28px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.3)">
+      <div style="height:40px;background:#ece5dc;display:flex;align-items:center;gap:8px;padding:0 18px">
+        <i style="width:11px;height:11px;border-radius:6px;background:#e0675d"></i><i style="width:11px;height:11px;border-radius:6px;background:#f0bd4f"></i>
+        <i style="width:11px;height:11px;border-radius:6px;background:#62c454"></i>
+        <span style="margin-left:12px;font-size:13px;color:#6d655d;font-weight:600">Retornela · Klinikpanel</span></div>
+      <div style="padding:20px 24px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end">
+          <div><div class="clinic" data-in="0">Lumière Clinic · demo</div><div data-in="0.08" style="font-family:Serif;font-size:42px;color:var(--ink);line-height:1.05">Patienter</div></div>
+          <div data-pop="3.45" style="display:flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:#2f6b3a;background:#e7f2e8;padding:7px 12px;border-radius:12px;margin-bottom:6px">
+            <i style="width:8px;height:8px;border-radius:4px;background:#2f9e48;display:block"></i>Synkat nu</div></div>
+        {body}</div></div>""", 4.4
+
+def campaign():
+    """Nytt utskick: Black Friday skrivs ut, skickas på 'direkt', levereras till patienterna, notis i appen."""
+    return f"""<div style="width:760px;height:440px;background:var(--ivory);border-radius:34px;padding:30px 34px;box-shadow:0 30px 60px rgba(0,0,0,.3);box-sizing:border-box;position:relative">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><div class="clinic" data-in="0">Lumière Clinic · demo</div>
+          <div data-in="0.08" style="font-family:Serif;font-size:46px;color:var(--ink);line-height:1.05;margin-top:4px">Nytt utskick</div></div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <div data-pop="1.4" style="font-size:14px;font-weight:700;padding:8px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);color:var(--ink)">Kampanj</div>
+          <div data-pop="2.55" style="font-size:14px;font-weight:700;padding:8px 12px;border-radius:12px;background:var(--ink);color:#fff">Black Friday</div></div></div>
+      <div data-in="0.2" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin-top:18px;height:96px;box-sizing:border-box">
+        <div style="font-size:13px;color:var(--muted);font-weight:600">Meddelande</div>
+        <div style="font-size:22px;font-weight:700;color:var(--ink);margin-top:6px;height:30px"><span data-type="2.6,3.55">Black Friday: −20 % på alla behandlingar</span></div></div>
+      <div data-in="0.3" style="display:flex;align-items:center;justify-content:space-between;margin-top:14px">
+        <div style="font-size:17px;color:#4a433c;font-weight:600">Till: <b style="color:var(--ink)">Alla patienter</b></div>
+        <div data-swap="3.85" style="position:relative;width:170px;height:50px">
+          <div class="btn" style="position:absolute;inset:0;font-size:18px;border-radius:16px;display:flex;align-items:center;justify-content:center">Skicka nu</div>
+          <div class="btn" style="position:absolute;inset:0;font-size:18px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:#2f6b3a;opacity:0">Skickat ✓</div></div></div>
+      <div data-in="4.4" style="margin-top:16px">
+        <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--muted)"><span>Levereras i appen</span><span data-in="5.3" data-dy="0" style="color:#2f6b3a">Alla patienter ✓</span></div>
+        <div style="height:8px;border-radius:4px;background:var(--line);margin-top:8px;overflow:hidden"><i data-fill="4.45,5.3,100" style="display:block;height:8px;background:var(--gold);width:0"></i></div></div>
+      <div data-in="5.5" data-dy="40" style="position:absolute;left:34px;right:34px;bottom:16px;background:rgba(31,27,24,.96);border-radius:22px;padding:14px 16px;display:flex;gap:12px;align-items:center;box-shadow:0 16px 30px rgba(0,0,0,.3)">
+        <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#5a4634,#B58E57);display:flex;align-items:center;justify-content:center;color:#f7f2ec;font-family:Serif;font-size:28px;flex:none">R</div>
+        <div style="flex:1"><div style="display:flex;justify-content:space-between;font-size:12px;color:#cfc6bc;font-weight:700"><span>LUMIÈRE CLINIC</span><span>nu</span></div>
+          <div style="font-size:16px;color:#fff;font-weight:600;margin-top:2px">Black Friday: −20 % på alla behandlingar</div></div></div></div>""", 6.3
+
+def push3():
+    """Tre notiser synkade med orden: röstmeddelande, påminnelse, rabatt."""
+    wave = "".join('<i style="display:inline-block;width:4px;height:24px;margin-right:3px;border-radius:2px;background:#B58E57;transform-origin:center"></i>' for _ in range(20))
+    def n(title, body, extra, time, t0):
+        return f"""<div data-in="{t0}" data-dy="-40" data-dur="0.4" style="background:rgba(250,247,243,.97);border-radius:28px;padding:16px 18px;display:flex;gap:14px;
+                 box-shadow:0 18px 36px rgba(0,0,0,.22);margin-bottom:14px">
+          <div style="width:50px;height:50px;border-radius:13px;background:linear-gradient(135deg,#2a231e,#5a4634);display:flex;
+               align-items:center;justify-content:center;color:#f3dcae;font-family:Serif;font-size:30px;flex:none">R</div>
+          <div style="flex:1"><div style="display:flex;justify-content:space-between;font-size:13px;color:#6d655d;font-weight:600">
+            <span>LUMIÈRE CLINIC</span><span>{time}</span></div>
+            <div style="font-size:18px;font-weight:700;color:#1F1B18;margin-top:3px">{title}</div>
+            <div style="font-size:16px;color:#3b352f;margin-top:2px;line-height:1.35">{body}</div>{extra}</div></div>"""
+    voice = f"""<div style="display:flex;align-items:center;gap:12px;margin-top:8px">
+        <div style="width:32px;height:32px;border-radius:16px;background:#1F1B18;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px">▶</div>
+        <div data-wave style="display:flex;align-items:center;height:28px">{wave}</div><span style="font-size:13px;color:#6d655d;font-weight:600">0:07</span></div>"""
+    return ('<div style="width:640px;height:356px">' +
+            n("Röstmeddelande", "Hej Sara! Dags att boka din nästa behandling.", voice, "nu", 0.0) +
+            n("Påminnelse", "Din laserbehandling är imorgon kl 14:00", "", "nu", 3.15) +
+            n("Erbjudande", "−15 % på din nästa behandling i december", "", "nu", 7.6) + "</div>"), 8.5
+
+def cta_dm():
+    """CTA: 'Skriv till oss' → mejladressen skrivs medan den sägs → 'eller DM:a oss' poppar."""
+    ic = lambda n, t0: f'<div data-pop="{t0}" style="width:56px;height:56px;border-radius:16px;background:var(--rose);display:flex;align-items:center;justify-content:center;flex:none">{_luc(n, 28)}</div>'
+    return f"""<div style="width:760px;background:var(--ivory);border-radius:36px;padding:40px;box-shadow:0 30px 60px rgba(0,0,0,.3)">
+      <div class="clinic" data-in="0">Retornela</div>
+      <div data-in="0.08" style="font-family:Serif;font-size:60px;color:var(--ink);line-height:1.05;margin-top:8px">Skriv till <i>oss</i></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:26px;height:56px">{ic("mail", 1.3)}<div style="font-size:32px;font-weight:700;color:var(--ink)" data-type="1.38,3.0">info@retornela.com</div></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:14px;height:56px">{ic("message-circle", 4.4)}<div data-in="4.45" style="font-size:28px;font-weight:600;color:#4a433c">eller DM:a oss</div></div></div>""", 5.3
+
 # name: (builder, output width px)
 UI = {
     "ret_points_sv": (lambda: points("sv"), 440), "ret_points_en": (lambda: points("en"), 440),
@@ -305,6 +386,7 @@ UI = {
     "ret_logo_sv": (lambda: logo("sv"), 720), "ret_logo_en": (lambda: logo("en"), 720),
     "ret_cta_sv": (lambda: cta("sv"), 780), "ret_cta_en": (lambda: cta("en"), 780),
     "imp_dash": (impetus, 980), "ret_aichat": (aichat, 990), "ret_cta_ai": (cta_ai, 880), "ret_logo_ai": (logo_ai, 720), "bf_coupon": (coupon, 860), "excet_card": (excet, 860),
+    "ret_patients_sv": (patients, 900), "ret_campaign_sv": (campaign, 900), "ret_push3_sv": (push3, 860), "ret_cta_dm_sv": (cta_dm, 800),
 }
 ICONS = ["sparkles", "lightbulb", "gift", "martini", "shopping-bag", "flame", "globe", "trending-down", "timer", "message-circle",
          "folder", "mail", "file-text", "calendar", "receipt", "sheet", "smartphone", "message-square", "clipboard-list", "laptop", "cap"]

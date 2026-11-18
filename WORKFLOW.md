@@ -30,6 +30,8 @@ Bakom kulisserna: Whisper transkriberar → `align.py` tvångsjusterar texten mo
   - Slå ihop/dela ord → ändra `wt` också (ett starttal per ord, källtid; se `words.txt`).
 - Nytt återkommande hörfel? Lägg in det i `scripts/rattning.json` (lärande).
 - Felaktigt klipp? Ändra `a`/`b` (källtid) eller kör om med annan paus: `python3 scripts/draft.py JOB --pause 0.35 --force`.
+- Falsk start eller sidospår som inte upprepas ordagrant (t.ex. "nummer tre" utan "två")? `--drop 1.0-3.5,26.2-27.0` tar bort orden i de tidsintervallen.
+- Whisper fel på många ord? Rätta texten per chunk i `NAME_segs.json` (slå ihop chunkar som delar ett ord), kör `align.py` igen och sedan `draft.py --force`.
 - Stickprov vid tvekan: `python3 scripts/tr_range.py JOB/IMG_XXXX_norm.wav /home/claude/models/sherpa-onnx-whisper-turbo 3.1:4.2`
 
 👁 **Skicka till William** (SendUserMessage):

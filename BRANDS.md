@@ -4,6 +4,7 @@ Uppdatera filen när något ändras. Visa bara det som stämmer.
 
 ## Retornela (Williams bolag, med Viggo)
 - **Vad:** lojalitetsappar för kliniker (poäng, påminnelser, bokning, belöningar, födelsedagserbjudanden, värvning, push).
+  - William säger också (nov 2026): röstmeddelanden, vanliga meddelanden, massutskick/kampanjer och patientöversikt. Ej bekräftat i övrigt.
 - **Ny tjänst (nov 2026):** AI-sök, alltså att kliniken syns i ChatGPT, Gemini och Claude.
 - **Paket:** Starter, Growth, Tailored.
 - **Kontakt i videor:** DM eller info@retornela.com.
@@ -14,6 +15,10 @@ Uppdatera filen när något ändras. Visa bara det som stämmer.
   - `ret_logo_ai`, `ret_logo_sv`, `ret_logo_en`: slutkort.
   - `ret_points_*`, `ret_treat_*`: app-skärmar.
   - `ret_push_sv`, `ret_ref_sv`, `ret_dash_sv`: push, värvning och dashboard med uppräkning.
+  - `ret_patients_sv`: patientlista i klinikpanelen (demo), "Synkat nu" poppar.
+  - `ret_campaign_sv`: nytt utskick (Black Friday, demo) som skickas och levereras, med notis.
+  - `ret_push3_sv`: tre notiser – röstmeddelande, påminnelse om behandling, erbjudande.
+  - `ret_cta_dm_sv`: "Skriv till oss", info@retornela.com skrivs ut, "eller DM:a oss".
 - **Demodata:** "Lumière Clinic · demo" eller "Din klinik".
 
 ## Impetus (William säljer som partner via CN Agency)
