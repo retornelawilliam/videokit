@@ -3,6 +3,7 @@
 William ska kunna följa varje steg. Skapa en uppgiftslista med de sju stegen nedan och bocka av dem. Visa resultatet vid varje 👁-punkt.
 
 ## 0. Starta kitet (en gång per chatt)
+Prompten för Claude-projektet ligger i `PROJECT_PROMPT.md`. Ändras arbetssättet ska både den och den här filen uppdateras.
 ```bash
 [ -f /home/claude/videokit/setup.sh ] || git clone https://github.com/retornelawilliam/videokit.git /home/claude/videokit
 bash /home/claude/videokit/setup.sh     # ska sluta med "VIDEOKIT REDO"
@@ -100,6 +101,7 @@ python3 /home/claude/scripts/storyboard.py video JOB/IMG_XXXX_iman.mp4 JOB/final
 ```
 - Titta på `final_sheet.jpg` (nu med undertexter). Rätta det som är fel och rendera om.
 - 👁 **Skicka videon** med SendUserFile och en kort sammanfattning: vad som klipptes, effekter, grafik och eventuella risker.
+- Lägg till ett förslag på posttext: 1–2 meningar på videons språk och 3–5 relevanta hashtags.
 
 ## Kända fallgropar
 - Typsnitt i Chrome-grafik måste vara inbäddade. `font-family:Serif` utan citattecken blir systemets serif, så `seqs.py` byter automatiskt.
